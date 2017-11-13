@@ -111,3 +111,40 @@ plot(t,XFF(2,:));
                           
     
 %%------------Fourier utilizando as funcoes do matlab---------------------------------%%
+inc_f = Fs/N;   %Calculo do incremento no domínio das frequências
+f = inc_f:inc_f:inc_f*(lgt_y/2);                     %Determinando o vetor de frequências (metade do tamanho do vetor de tempos)
+lgt_y = N;
+                               
+%%
+%Execução da FFT
+y = sinal(1,:); %somente do primeiro sinal
+Y = fft(y);                             
+Y_abs = abs(Y(1:lgt_y/2));                                     %Extração do vetor de anplitudes pela frequência.
+Y_ang = radtodeg(angle(Y(1:lgt_y/2)));                         %Extração do vetor de Ângulos pela frequência. A função angle calcula o ângulo no índice complexo em radianos e a função radtodeg converte esse valor em graus
+                     
+%Ploting
+figure;
+subplot(2,2,1);
+plot(t,y); hold on; plot(t,y_filt,'r');
+title('Time series')
+xlabel('Time (sec)');
+ylabel('Amplitude (V)');
+
+subplot(2,2,2);
+plot(Y);hold on; plot(YF,'r');
+title('Fourier Complex Series')
+xlabel('Real axis');
+ylabel('Imaginary axis');
+
+subplot(2,2,3);
+plot(f,Y_abs,'r'); hold on; plot(f, YF_abs,'g');
+title('Amplitude Fourier Spectrum')
+xlabel('Frequency (Hz)');
+ylabel('Amplitude (V)');
+
+subplot(2,2,4);
+plot(f,Y_ang,'m');hold on; plot(f, YF_ang,'c');
+title('Phase Fourier Spectrum')
+xlabel('Frequency (Hz)');
+ylabel('Angle (deg)');
+
