@@ -29,34 +29,43 @@ f1_har = Fs/N;
 f = 0:f1_har:Fs/2; %vetor de base de frequencias, dimensao Nf
 Nf = length(f);
 
+%Obter: 
+% XN -> modulo da transformada normalizada  {XN1, XN2,...,XN10}
+% XFF -> fase da transformada {XFF1, XFF2,...,XFF10
+% sinais ->  sinais {X1, X2,...,X10}
+% P -> potências  {P1, P2,...,P10} 
+% fm -> frequências medianas {fm1, fm2,...,fm10}.
 
-XF = zeros(10, Nf); 
-XM = zeros(10, Nf);
-XFF = zeros(10, Nf); %  vetor de fase da transformada de Fourier, dimensao Nf, radianos
-XQ = zeros(10, Nf);
-P = zeros(10, 1); % potencia espectral total do sinal, escalar
+%Alocação da memoria
 XN = zeros(10, Nf); %vetor de modulo normalizado da transformada, dimensao Nf, [W/Hz]
+XFF = zeros(10, Nf); %  vetor de fase da transformada de Fourier, dimensao Nf, radianos
+P = zeros(10, 1); % potencia espectral total do sinal, escalar
+fm = zeros(10, 1); %frequências medianas
+  
+XF = zeros(10, Nf); %vetor da transformada em numero complexo
+XM = zeros(10, Nf); %Vetor dos modulos da transformada raiz(real^2 + imaginario^2)
+XQ = zeros(10, Nf); %XM elevado ao quadrado utilizado pela formula da potencia
 
 for ii = 1 : 10
-  for k = 1 : Nf
-      C = cos(2*pi*f(k).*tempo);
-      S = sin(2*pi*f(k).*tempo);
-      Cx = sinal(ii,:) .* C;
-      Sx = sinal(ii,:) .* S;
-      xrf = integral(Cx, Fs);         
-      xif = integral(Sx, Fs);         
-      XF(ii,k) = xrf - 1i*xif;           
-      XM(ii,k) = sqrt(xrf^2 + xif^2);
-      XFF(ii,k) = atan2d(xif,xrf);
-      XQ(ii,k) = XM(k)^2;
+  for k = 1 : Nf %Para cada harmonica
+      C = cos(2*pi*f(k).*tempo); %Equacao da parte do cos da transformada de fourier
+      S = sin(2*pi*f(k).*tempo); %Equacao da parte do seno da tranformada de fourier
+      Cx = sinal(ii,:) .* C; %sinal vezes a parte do cosseno
+      Sx = sinal(ii,:) .* S; %sinal vezes a parte do seno
+      xrf = integral(Cx, Fs); %o coeficiente da parte real ven do cosseno
+      xif = integral(Sx, Fs); %e o coeficiente da parte imaginaria vem do seno
+      XF(ii,k) = xrf - 1i*xif; %juntado imaginario e real num numero complexo
+      XM(ii,k) = sqrt(xrf^2 + xif^2); %Modulo do numero complexo
+      XFF(ii,k) = atan2d(xif,xrf); %Fase do numero complexo
+      XQ(ii,k) = XM(k)^2; %Modulo ao quadrado
   end
   % Normalizacao do espectro
-  P(ii) = integralMod(XQ(ii,:), f);             
-  XN(ii,:) = XM(ii,:) ./ sqrt(P(ii));                      
+  P(ii) = integralMod(XQ(ii,:), f); %Obtem a potencia utilizando o modulo ao quadrado, ver tarefas anteriores
+  XN(ii,:) = XM(ii,:) ./ sqrt(P(ii)); %Normaliza XM pela potencia                      
   soma = 0;
   for jj = 1 : length(XN)
-    soma = soma + (XN(ii,jj) * f(jj));
+    soma = soma + (XN(ii,jj) * f(jj)); %Somatorio para calculo da frequencia mediana
   end
-  fm = soma/sum(XN(ii,:));
+  fm(ii) = soma/sum(XN(ii,:)); %Frequencia mediana
 end
 
