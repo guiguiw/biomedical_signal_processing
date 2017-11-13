@@ -68,4 +68,43 @@ for ii = 1 : 10
   end
   fm(ii) = soma/sum(XN(ii,:)); %Frequencia mediana
 end
+%%------Plotando os sinais:------%%
+%3. Plotar, num mesmo gráfico e utilizando escalas adequadas, os pares de vetores de dados (t,Xi), (f,XNi); (f,XFFi),]
+%   onde i = 1,...,10; considerando sempre o mesmo vetor f. Para cada valor de i, fazer um gráfico de cores diferentes.
+%   Ou seja, devem ser geradas 3 figuras. Na primeira figura, todos os 10 sinais no tempo serão mostrados com a mesma
+%   escala de tempo e amplitude, enquanto que na segunda figura todos os módulos das 10 transformadas serão apresentados
+%   com a mesma escala de frequência e potencia. O mesmo vale para a terceira figura, onde todos os 10 graficos de fase 
+%   da transformada serão apresentados com a mesma escala de frequência e fase. Apresentar também uma tabela, onde os
+%   valores escalares de potências {P1, P2,...,P10} serão mostrados numa coluna, os valores escalares de frequências
+%   medianas {fm1, fm2,...,fm10} serão mostrados na segunda coluna, e os valores dos parâmetros característicos dos
+%   sinais Xi serão mostrados na terceira coluna. 
+ 
+% https://www.mathworks.com/help/matlab/ref/subplot.html?s_tid=doc_ta
+% https://www.mathworks.com/help/matlab/ref/hold.html?searchHighlight=hold&s_tid=doc_srchtitle
+% https://www.mathworks.com/help/matlab/ref/figure.html
+% https://www.mathworks.com/help/matlab/ref/plot.html?searchHighlight=plot&s_tid=doc_srchtitle
 
+                               
+%---------Sugestão:
+figure();
+subplot(2,2,1);
+title('Sinais gerados');
+plot(t,sinal(1,:));
+hold on;
+plot(t,sinal(2,:));
+%... Completar
+subplot(2,2,2);
+title('Fourier - Modulos');
+plot(f,XM(1,:));
+hold on;
+plot(t,XM(2,:));
+%... Completar
+subplot(2,2,2);
+title('Fourier - Fases');
+plot(f,XFF(1,:));
+hold on;
+plot(t,XFF(2,:));
+%...                           
+                          
+    
+%%------------Fourier utilizando as funcoes do matlab---------------------------------%%
