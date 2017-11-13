@@ -84,22 +84,25 @@ end
 % https://www.mathworks.com/help/matlab/ref/figure.html
 % https://www.mathworks.com/help/matlab/ref/plot.html?searchHighlight=plot&s_tid=doc_srchtitle
 
-                               
+
 %---------Sugestão:
+%https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcS50Fte6YKvV8td3U5NbDWXUFRsqfuZVpOuqUdK8bGATf4xyd                               
+%http://matlab.izmiran.ru/help/techdoc/ref/subplota.gif
+                               
 figure();
-subplot(2,2,1);
+subplot(2,2,1:2);
 title('Sinais gerados');
 plot(t,sinal(1,:));
 hold on;
 plot(t,sinal(2,:));
 %... Completar
-subplot(2,2,2);
+subplot(2,2,3);
 title('Fourier - Modulos');
 plot(f,XM(1,:));
 hold on;
 plot(t,XM(2,:));
 %... Completar
-subplot(2,2,2);
+subplot(2,2,4);
 title('Fourier - Fases');
 plot(f,XFF(1,:));
 hold on;
