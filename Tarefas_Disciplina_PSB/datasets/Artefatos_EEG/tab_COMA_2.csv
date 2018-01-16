@@ -1,0 +1,6 @@
+											
+"Grupo"	"Número do Arquivo"	"Nome"	"Sexo"	"Desfecho "	"Histórico"	"Idade Internação Hospital"	"Tipo de Saída"	"Protocolo ME"	"Morte Encefálica"	"Causa do Coma"	"Artefato no exame"
+"Grupo 1"	"P006"	"AOL"	"Masculino"	"Alta"	"Paciente valvulopata, com valvuloplastia há 6 meses, refere febre há 3 dias, tosse seca, dispnéia e dor em faixa em tórax, que piora à inspiração forçada. Evoluiu com PCR e rebaixamento do nível de consciência durante internação."	54	"Transferência"	"Não"	"Não"	"Encefalopatia hipóxica"	"Cardíaco"
+"Grupo 2"	"P008"	"EFN"	"Feminino"	"Óbito"	"Paciente obesa, encaminhada do hospital municipal, onde encontrava-se internada há bastante tempo. Evoluiu hoje com rebaixamento do nível de consciência."	63	"Óbito"	"Não"	"Não"	"AVE"	"Movimentação muscular"
+"Grupo 3"	"P045"	"LHL"	"Masculino"	"Óbito"	"Paciente admitido no serviço com confusão mental e evolui com rebaixamento do nível de consciência."	72	"Óbito"	"Sim"	"Não"	"AVE"	"Artefato de suor"
+"Grupo 4"	"P062"	"SAC"	"Feminino"	"Alta"	"Paciente vítima de acidente automobilístico com TCE e politrauma, evoluindo com rebaixamento do nível de consciência."	74	"Transferência"	"Não"	"Não"	"TCE"	"Paciente dormiu"

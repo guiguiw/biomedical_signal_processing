@@ -7,7 +7,7 @@ function [ valores1 ] = GetValores1(x)
     % Para cada canal, subtrai do seu valor o valor da media multiplicado
     % por um vetor de ones
     for ii=1:QntCh
-        valores1(ii,:) = x(ii,:) - mean(x(ii,:)).*valores1(ii,:); 
+        valores1(ii,:) = x(ii,:) - mean(x(ii,:))*valores1(ii,:); 
     end
 end
 
