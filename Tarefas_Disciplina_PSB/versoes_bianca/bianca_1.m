@@ -15,7 +15,12 @@
 % Observação: Os valores de ti e de tf devem ser especificados no inicio do programa.
 % ------------------------------------------------------------------------------
 
-% Carregamento de dados 
+%% Dica: Limpar a tela, fechar todos os graficos e limpar as variaveis
+clc; % Limpa os comandos
+close all; % Fecha todos os graficos abertos
+clear all; % Limpa todas a variveis
+
+%% Carregamento de dados 
 load coma; 
 Valores1 = coma; 
 clear coma;
@@ -33,98 +38,76 @@ T = 1/fa;
 
 % Faixa de tempo 
 % O tempo vai variar da seguinte forma: [0 T 2T 3T] 
-t = T * [0:(N-1)]
+t = T * (0:(N-1));
 
-% Declaração da matriz de sinal 
-sinal = ones(1, N);
-
+%% Calculo da media nula
 % Declaração de uma matriz unitária
 % Essa matriz unitária é importante pois sempre será multiplicada pela
 % matriz de média
+% Por exemplo mu = [1, 1, 1, ...]
 mu = ones (1, N);
 
-% Matriz que conterá os valores resultantes da média de cada linha 
-media = ones(1,L);
+% Matriz que conterá os valores resultantes da média de cada linha
+medias = ones (1, N);
 
-contador = 1; 
+%vm é uma matriz que receberá o valor médio de cada linha da matriz
+%Valores1. Para cada valor de contador, todas as colunas da matriz
+%Valores1 será percorrida, e em vm será armazenado valor médio disto.
+% Por exemplo: Se Valores1 = [ 1, 2, 3; 4, 5, 6]
+% Então: mean(Valores1,2) = [2; 5] por (1+2+3)/3 = 2 e etc..
+% se não colocar o 2: mean(Valores1) = [2.5, 3.5, 4.5] pois (1+4)/2 = 2.5
+vm = mean(Valores1,2);
 
-while(contador <= L)
-    
-    %vm é uma matriz que receberá o valor médio de cada linha da matriz
-    %Valores1. Para cada valor de contador, todas as colunas da matriz
-    %Valores1 será percorrida, e em vm será armazenado valor médio disto.
-    vm = mean(Valores1(contador, ); 
-    
+for Contador=1:L % Neste caso um for é mais apropriado
     % O vetor linha mu, isto é, aquele formado por 1 linha e o número de
     % colunas igual ao número de colunas da matriz Valores1, será
     % multiplicado por cada vm, que representa a média do sinal.
-    mu = mu*vm;
+    % Por exemplo: se mu = [1, 1, 1] e vm = [2; 5]
+    % media = [2, 2, 2] quando contador valer 1
+    % media = [5, 5, 5] quando contador valer 2 e assim por diante
+    medias = mu * vm(Contador);
     
-    % A matriz media, que na verdade configura-se como um vetor coluna,
+    % A matriz media, que na verdade configura-se como um vetor linha,
     % formado por uma linha e 20 colunas (referentes ao número de linhas da
     % matriz Valores1) irá receber a média de cada linha da matriz
     % Valores1.
-
-Valores1 (contador,:) = Valores1(contador,:) - mu(contador,:);
-    media(contador,  = mean(Valores1(contador, );
+    % Por exemplo: Se Valores1 = [1, 2, 3; 4, 5, 6] e media = [2, 2, 2]
+    % pois contador vale 1, então Valores1 = [0, 1, 2; 4, 5, 6]
+    % Quando contador valer 2. ele executara a proxima linha
+    % A notação ':' é usada para representar todos os valores daquele canal
+    % Por exemplo: x = [1, 2, 3; 4, 5, 6]
+    %              x(1,:) = [1, 2 ,3] linha1 e todas as colunas
+    %              x(:,1) = [1; 4] todas as linhas e coluna 1
+    Valores1(Contador,:) = Valores1(Contador,:) - medias;
     
-    % O contador deve ser incrementado a cada loop.
-    contador = contador + 1;
-
     % Gráfico Valores1 x tempo -> mostra os valores obtidos, ou seja, as
     % amostras colhidas por cada eletrodo para cada valor de tempo.
-    plot(t,Valores1);
-    
-    
-    % Função Potência 
-    
-    cont = 1; 
-    cont2 = 1;
-    potencia = zeros(1, L);
-    int numero;
-    
-    while(cont <= L)
-        
-        while(cont2 <= N)
-            
-            % O numero vai receber o valor do elemento da matriz Valores1
-            % localizado na linha referente ao valor de cont(cont vai
-            % percorrer todas as linha da matriz Valores1) e da coluna
-            % cont2( cont2 vai percorrer todas as colunas da matriz
-            % Valores1). Ou seja, para o primeiro loop, o numero irá
-            % receber o valor da matriz que está na linha 1 e coluna 1, ou
-            % seja, a(11).
-            numero = Valores1(cont, cont2);
-            
-            % A matriz potencia, que na verdade é um vetor coluna (possui
-            % uma linha e o número de colunas igual ao número de colunas da
-            % matriz Valores1) irá receber o número(valor de cada posição
-            % da matriz Valores1) elevado ao quadrado, mais o próprio valor
-            % da matriz potência. 
-            % A matriz potencia conterá então um total de 20 colunas, em
-            % que cada coluna será preenchida pela potência (calculado
-            % através da fórmula mostrada acima) dos elementos referentes a
-            % linha (igual ao valor do contador) da matriz Valores1.
-            potencia(1,cont) = (numero)^2 + potencia(1,cont);
-            
-            % O contador 2 será incrementado, assim, ele percorrerá todas
-            % as colunas da matriz Valores1, de modo que o número receba
-            % sequencialmente a(11), a(12), a(13) até o 2500º elemento da
-            % linha referente ao valor de cont da matriz.
-            cont2 = cont2 + 1; 
-            
-        end
-               
-              % Para cada somatório (somatório de cada elemento de cada
-              % linha da matriz Valores1 elevado ao quadrado), o valor
-              % final deve ser dividido pelo número de colunas total da
-              % matriz Valores1, que se refere ao número de amostras
-              % totais.
-              potencia(1,cont)= (potencia(1,cont))/N; 
-              
-              % O contador deve ser incrementado a cada loop, de modo a
-              % percorrer cada linha da matriz Valores1. Assim, a variavel
-              % numero vai ser sequencialmente a(1..) a(2..) a(3..)
-              
-              cont=cont+1;
-    end
+    % Esse plot pode deixar tudo mais lento, se não for necessario deixar
+    % comentado deixa mais rapido
+    % plot(t,Valores1(Contador));
+    % Dica use o title, xlabel, ylabel e grid, para melhorar seu grafico
+end
+
+%% Função Potência
+% Potencia é igual 1/N multiplicado pelo somatorio de:
+% a ao quadrado (no caso valores1.^2). O ponto significa que é 
+% para realizar a operação escalar e não a matricial. Ou seja executar
+% valor a valor e não como se todos os valores fossem uma matriz como em GA
+% Exemplos:
+% Sem o ponto: [1, 2; 3, 4]^2 = [1, 2; 3, 4]*[1, 2; 3, 4] = [7, 10; 15, 22]
+% Com o ponto: [1, 2; 3, 4].^2 = [1², 2²; 3², 4²] = [1, 4; 9, 16]
+% O segundo 2 signifca que é pra realizar na linha pora linha e não coluna 
+% por coluna que é o padrão. O numero 2 pelo help do matlab é a dimensão 
+% que você quer que execute a função.
+% Exemplo: Sem o 2: sum([1 2 3; 4 5 6]) = [5 7 9]
+%          Com o 2: sum([1 2 3; 4 5 6], 2) = [ 6
+%                                              15]     
+potencia = (1/N) * sum(Valores1.^2, 2);
+
+% Dicas, para ver o valor da media antes de subtrair digite:
+% vm'
+% E depois de subtrair digite:
+% mean(Valores1,2)'
+%Você vai notar que as novas medias são numeros muito pequenos proximos a 0
+% E para ver a potencia:
+% potencia'
