@@ -197,3 +197,22 @@ disp('Potências de cada epoca de P3: ');
 P3EPWR'
 disp('Potências de cada epoca de P4: ');
 P4EPWR'
+
+%% Erro da PSD
+P3XM_mean = mean(P3EXM);
+P3XM_std = std(P3EXM);
+P3XM_mean_upper = P3XM_mean + P3XM_std;
+P3XM_mean_lower = P3XM_mean - P3XM_std;
+
+figure();
+plot(P3f, P3XM);
+title('PSD - Power Spectrum Density');
+ylabel('|X| [W/Hz]');
+xlabel('F [Hz]');
+xlim([0, 100]);
+hold on;
+plot(P3f, P3XM_mean);
+plot(P3f, P3XM_mean_upper, 'k');
+plot(P3f, P3XM_mean_lower, 'k');
+grid on;
+legend('P3','P3 mean');
