@@ -16,11 +16,11 @@
 %                        do vetor x [1xN]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [ integralTotal,sinalintegral ] = integral( x, fa )
+function [ integralTotal,sinalintegral ] = integral(x)
 
 %% Obtenção das variáveis auxiliares para implementação do método de
 % integração numérica (trapézio simples)
-Ta = 1/fa;      % Período de amostragem
+Ta = x(1,2)-x(1,1);      % Período de amostragem
 N = length(x);% Número de amostras do vetor x
 t = 0:Ta:Ta*(N-1);
 
