@@ -1,0 +1,270 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Hodgkin_Huxley_model_ali</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-10-24"><meta name="DC.source" content="Hodgkin_Huxley_model_ali.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="comment">%===============================  NERVE ACTION POTENTIAL SIMULATION ========================================</span>
+<span class="comment">% A Quantitative Description of  Membrane Current and its Application to Conduction and Excitation in Nerve</span>
+<span class="comment">%Hodgkin Huxley Model (Nobel Prize 1963)</span>
+<span class="comment">% Simulation of Hodgkin Huxley Model</span>
+<span class="comment">% Assumption: I am not taking into account Leakage Current</span>
+<span class="comment">% ALIARSHAD KOTHAWALA</span>
+<span class="comment">% IIT-MADRAS,INDIA</span>
+<span class="comment">%============================================================================================================</span>
+close <span class="string">all</span>;clear <span class="string">all</span>;clc;
+<span class="comment">%============================================================================================================</span>
+<span class="comment">%                                         Given Parameters for simulation</span>
+<span class="comment">%============================================================================================================</span>
+E_rest=-68;
+E_K=-74.7;
+E_Na=54.2;
+C=1;
+G_K=12;
+G_Na=30;
+n_init=0.3;
+m_init=0.065;
+h_init=0.6;
+<span class="comment">%==========================================================================================================</span>
+<span class="comment">%                                          Determining the Initial values</span>
+<span class="comment">%                                             Set the initial states</span>
+<span class="comment">%===========================================================================================================</span>
+V =0; <span class="comment">% baseline voltage</span>
+alpha_n=0.01*(10-V)/(exp((10-V)/10)-1);
+beta_n=0.125*exp(-V/80);
+alpha_m=0.1*(25-V)/(exp((25-V)/10)-1);
+beta_m=4*exp(-V/18);
+alpha_h=0.07*exp(-V/20);
+beta_h=1/(exp((30-V)/10)+1);
+n(1)=alpha_n/(alpha_n+beta_n);
+m(1)=alpha_m/(alpha_m+beta_m);
+h(1)=alpha_h/(alpha_h+beta_h);
+<span class="comment">%=========================================================================================================</span>
+<span class="comment">%                                  Defining the time vector for simulation</span>
+<span class="comment">%===========================================================================================================</span>
+Total_time=10;  <span class="comment">%10 ms</span>
+deltaT=0.01;
+t=0:deltaT:Total_time;
+<span class="comment">%============================================================================================================</span>
+<span class="comment">%                                               Defining the Current</span>
+<span class="comment">%===============================================================================================================</span>
+I=zeros(1,numel(t));
+I(1,1:80)=75; <span class="comment">% % micro amp current</span>
+
+<span class="comment">%===========================================================================================================</span>
+<span class="comment">%                            Computing coefficients, currents, and derivates at each time step</span>
+<span class="comment">%===========================================================================================================</span>
+<span class="keyword">for</span> i=1:numel(t)-1
+
+    <span class="comment">%---calculate the coefficients---%</span>
+
+    <span class="comment">%Equations here are same as above, just calculating at each time step</span>
+    alpha_n(i) = .01 * ( (10-V(i)) / (exp((10-V(i))/10)-1) );
+    beta_n(i) = .125*exp(-V(i)/80);
+    alpha_m(i) = .1*( (25-V(i)) / (exp((25-V(i))/10)-1) );
+    beta_m(i) = 4*exp(-V(i)/18);
+    alpha_h(i) = .07*exp(-V(i)/20);
+    beta_h(i) = 1/(exp((30-V(i))/10)+1);
+
+
+    <span class="comment">%---calculate the currents---%</span>
+
+    I_Na = (m(i)^3) *G_Na * h(i) * (V(i)-E_Na); <span class="comment">%Equations 3 and 14</span>
+    I_K = (n(i)^4) * G_K * (V(i)-E_K); <span class="comment">%Equations 4 and 6</span>
+    I_ion = I(i) - I_K - I_Na ;
+
+    <span class="comment">%---calculate the derivatives using Euler first order approximation---%</span>
+    V(i+1) = V(i) + deltaT*I_ion/C;
+    n(i+1) = n(i) + deltaT*(alpha_n(i) *(1-n(i)) - beta_n(i) * n(i)); <span class="comment">%Equation 7</span>
+    m(i+1) = m(i) + deltaT*(alpha_m(i) *(1-m(i)) - beta_m(i) * m(i)); <span class="comment">%Equation 15</span>
+    h(i+1) = h(i) + deltaT*(alpha_h(i) *(1-h(i)) - beta_h(i) * h(i)); <span class="comment">%Equation 16</span>
+
+<span class="keyword">end</span>
+
+V = V-70; <span class="comment">%Set resting potential to -70mv</span>
+
+
+<span class="comment">%============================================================================================================</span>
+                                                 <span class="comment">% Plot the Voltage</span>
+<span class="comment">%============================================================================================================</span>
+plot(t,V,<span class="string">'LineWidth'</span>,3)
+hold <span class="string">on</span>
+legend({<span class="string">'Voltage'</span>})
+ylabel(<span class="string">'Voltage (mV)'</span>)
+xlabel(<span class="string">'time (ms)'</span>)
+title(<span class="string">'Volatge over time in simulated neuron'</span>);
+<span class="comment">%============================================================================================================</span>
+                                                 <span class="comment">%Plot the Conductance</span>
+<span class="comment">%============================================================================================================</span>
+figure
+p1 = plot(t,G_K*n.^4,<span class="string">'m'</span>,<span class="string">'LineWidth'</span>,2);
+hold <span class="string">on</span>
+p2 = plot(t,G_Na*(m.^3).*h,<span class="string">'g'</span>,<span class="string">'LineWidth'</span>,2);
+legend([p1, p2], <span class="string">'Conductance for Potassium'</span>, <span class="string">'Conductance for Sodium'</span>)
+ylabel(<span class="string">'Conductance'</span>)
+xlabel(<span class="string">'time (ms)'</span>)
+title(<span class="string">'Conductance for Potassium and Sodium Ions in Simulated Neuron'</span>)
+</pre><img vspace="5" hspace="5" src="Hodgkin_Huxley_model_ali_files/Hodgkin_Huxley_model_ali_01.png" alt=""> <img vspace="5" hspace="5" src="Hodgkin_Huxley_model_ali_files/Hodgkin_Huxley_model_ali_02.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB® R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%===============================  NERVE ACTION POTENTIAL SIMULATION ========================================
+% A Quantitative Description of  Membrane Current and its Application to Conduction and Excitation in Nerve
+%Hodgkin Huxley Model (Nobel Prize 1963)
+% Simulation of Hodgkin Huxley Model
+% Assumption: I am not taking into account Leakage Current
+% ALIARSHAD KOTHAWALA
+% IIT-MADRAS,INDIA
+%============================================================================================================
+close all;clear all;clc;
+%============================================================================================================
+%                                         Given Parameters for simulation
+%============================================================================================================
+E_rest=-68;
+E_K=-74.7;
+E_Na=54.2;
+C=1;
+G_K=12;
+G_Na=30;
+n_init=0.3;
+m_init=0.065;
+h_init=0.6;
+%==========================================================================================================
+%                                          Determining the Initial values 
+%                                             Set the initial states
+%===========================================================================================================
+V =0; % baseline voltage
+alpha_n=0.01*(10-V)/(exp((10-V)/10)-1);
+beta_n=0.125*exp(-V/80);
+alpha_m=0.1*(25-V)/(exp((25-V)/10)-1);
+beta_m=4*exp(-V/18);
+alpha_h=0.07*exp(-V/20);
+beta_h=1/(exp((30-V)/10)+1);
+n(1)=alpha_n/(alpha_n+beta_n);
+m(1)=alpha_m/(alpha_m+beta_m);
+h(1)=alpha_h/(alpha_h+beta_h);
+%=========================================================================================================
+%                                  Defining the time vector for simulation
+%===========================================================================================================
+Total_time=10;  %10 ms
+deltaT=0.01;
+t=0:deltaT:Total_time;
+%============================================================================================================
+%                                               Defining the Current
+%===============================================================================================================
+I=zeros(1,numel(t));
+I(1,1:80)=75; % % micro amp current
+
+%===========================================================================================================
+%                            Computing coefficients, currents, and derivates at each time step
+%===========================================================================================================
+for i=1:numel(t)-1 
+    
+    %REPLACE_WITH_DASH_DASH-calculate the coefficientsREPLACE_WITH_DASH_DASH-%
+    
+    %Equations here are same as above, just calculating at each time step
+    alpha_n(i) = .01 * ( (10-V(i)) / (exp((10-V(i))/10)-1) );
+    beta_n(i) = .125*exp(-V(i)/80);
+    alpha_m(i) = .1*( (25-V(i)) / (exp((25-V(i))/10)-1) );
+    beta_m(i) = 4*exp(-V(i)/18);
+    alpha_h(i) = .07*exp(-V(i)/20);
+    beta_h(i) = 1/(exp((30-V(i))/10)+1);
+    
+    
+    %REPLACE_WITH_DASH_DASH-calculate the currentsREPLACE_WITH_DASH_DASH-%
+    
+    I_Na = (m(i)^3) *G_Na * h(i) * (V(i)-E_Na); %Equations 3 and 14
+    I_K = (n(i)^4) * G_K * (V(i)-E_K); %Equations 4 and 6
+    I_ion = I(i) - I_K - I_Na ; 
+    
+    %REPLACE_WITH_DASH_DASH-calculate the derivatives using Euler first order approximationREPLACE_WITH_DASH_DASH-%
+    V(i+1) = V(i) + deltaT*I_ion/C;
+    n(i+1) = n(i) + deltaT*(alpha_n(i) *(1-n(i)) - beta_n(i) * n(i)); %Equation 7
+    m(i+1) = m(i) + deltaT*(alpha_m(i) *(1-m(i)) - beta_m(i) * m(i)); %Equation 15
+    h(i+1) = h(i) + deltaT*(alpha_h(i) *(1-h(i)) - beta_h(i) * h(i)); %Equation 16
+
+end
+
+V = V-70; %Set resting potential to -70mv
+
+
+%============================================================================================================
+                                                 % Plot the Voltage
+%============================================================================================================
+plot(t,V,'LineWidth',3)
+hold on
+legend({'Voltage'})
+ylabel('Voltage (mV)')
+xlabel('time (ms)')
+title('Volatge over time in simulated neuron');
+%============================================================================================================
+                                                 %Plot the Conductance
+%============================================================================================================                                                 
+figure
+p1 = plot(t,G_K*n.^4,'m','LineWidth',2);
+hold on
+p2 = plot(t,G_Na*(m.^3).*h,'g','LineWidth',2);
+legend([p1, p2], 'Conductance for Potassium', 'Conductance for Sodium')
+ylabel('Conductance')
+xlabel('time (ms)')
+title('Conductance for Potassium and Sodium Ions in Simulated Neuron')
+
+##### SOURCE END #####
+--></body></html>
