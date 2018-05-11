@@ -153,7 +153,8 @@ for ii=1:qntE
     grid on;
     hold on; plot(P4f, P4XM);
 end
-%% Total power
+
+%% Power total
 P3PWR = trapz(P3XM(P3f < 100), P3f(P3f < 100));
 P4PWR = trapz(P4XM(P4f < 100), P4f(P4f < 100));
 
@@ -164,4 +165,35 @@ for ii=1:qntE
     P4EPWR(ii) = trapz(P4EXM(ii, P4Ef < 100), P4Ef(P4Ef < 100));
 end
 
+disp('************************');
+disp('Usando função TRAPZ');
+disp('************************');
+disp(['Potência de P3: ' num2str(P3PWR)]);
+disp(['Potência de P4: ' num2str(P4PWR)]);
+disp('************************');
+disp('Potências de cada epoca de P3: ');
+P3EPWR'
+disp('Potências de cada epoca de P4: ');
+P4EPWR'
 
+%% Power total usando equações do destro
+P3PWR = integral(P3XM(P3f < 100), P3f(P3f < 100));
+P4PWR = integral(P4XM(P4f < 100), P4f(P4f < 100));
+
+P3EPWR = zeros(qntE, 1);
+P4EPWR = zeros(qntE, 1);
+for ii=1:qntE
+    P3EPWR(ii) = integral(P3EXM(ii, P3Ef < 100), P3Ef(P3Ef < 100));
+    P4EPWR(ii) = integral(P4EXM(ii, P4Ef < 100), P4Ef(P4Ef < 100));
+end
+
+disp('************************');
+disp('Usando funções do Destro');
+disp('************************');
+disp(['Potência de P3: ' num2str(P3PWR)]);
+disp(['Potência de P4: ' num2str(P4PWR)]);
+disp('************************');
+disp('Potências de cada epoca de P3: ');
+P3EPWR'
+disp('Potências de cada epoca de P4: ');
+P4EPWR'
