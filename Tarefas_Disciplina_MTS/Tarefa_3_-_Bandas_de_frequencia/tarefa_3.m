@@ -154,10 +154,35 @@ for ii=1:qntE
     hold on; plot(P4f, P4XM);
 end
 
+%% Bandas de Frequencia
+delta =     [   0,  3.5];
+teta =      [ 3.5,  7.5];
+alpha =     [ 7.5, 12.5];
+beta =      [12.5, 30.0];
+gama =      [30.0, 80.0];
+high_gama = [80.0,100.0];
+
 %% Power total
 P3PWR = trapz(P3XM(P3f < 100), P3f(P3f < 100));
 P4PWR = trapz(P4XM(P4f < 100), P4f(P4f < 100));
 
+%% Power per band P3
+P3PWR_delta = trapz(P3XM(P3f > delta(1) & P3f > delta(2)), P3f(P3f > delta(1) & P3f > delta(2)));
+P3PWR_teta = trapz(P3XM(P3f > teta(1) & P3f > teta(2)), P3f(P3f > teta(1) & P3f > teta(2)));
+P3PWR_alpha = trapz(P3XM(P3f > alpha(1) & P3f > alpha(2)), P3f(P3f > alpha(1) & P3f > alpha(2)));
+P3PWR_beta = trapz(P3XM(P3f > beta(1) & P3f > beta(2)), P3f(P3f > beta(1) & P3f > beta(2)));
+P3PWR_gama = trapz(P3XM(P3f > gama(1) & P3f > gama(2)), P3f(P3f > gama(1) & P3f > gama(2)));
+P3PWR_high_gama = trapz(P3XM(P3f > high_gama(1) & P3f > high_gama(2)), P3f(P3f > high_gama(1) & P3f > high_gama(2)));
+
+%% Power per band P4
+P4PWR_delta = trapz(P4XM(P4f > delta(1) & P4f > delta(2)), P4f(P4f > delta(1) & P4f > delta(2)));
+P4PWR_teta = trapz(P4XM(P4f > teta(1) & P4f > teta(2)), P4f(P4f > teta(1) & P4f > teta(2)));
+P4PWR_alpha = trapz(P4XM(P4f > alpha(1) & P4f > alpha(2)), P4f(P4f > alpha(1) & P4f > alpha(2)));
+P4PWR_beta = trapz(P4XM(P4f > beta(1) & P4f > beta(2)), P4f(P4f > beta(1) & P4f > beta(2)));
+P4PWR_gama = trapz(P4XM(P4f > gama(1) & P4f > gama(2)), P4f(P4f > gama(1) & P4f > gama(2)));
+P4PWR_high_gama = trapz(P4XM(P4f > high_gama(1) & P4f > high_gama(2)), P4f(P4f > high_gama(1) & P4f > high_gama(2)));
+
+%% Para cada epoca
 P3EPWR = zeros(qntE, 1);
 P4EPWR = zeros(qntE, 1);
 for ii=1:qntE
@@ -165,54 +190,58 @@ for ii=1:qntE
     P4EPWR(ii) = trapz(P4EXM(ii, P4Ef < 100), P4Ef(P4Ef < 100));
 end
 
-disp('************************');
-disp('Usando função TRAPZ');
-disp('************************');
-disp(['Potência de P3: ' num2str(P3PWR)]);
-disp(['Potência de P4: ' num2str(P4PWR)]);
-disp('************************');
-disp('Potências de cada epoca de P3: ');
-P3EPWR'
-disp('Potências de cada epoca de P4: ');
-P4EPWR'
+%% Power per band P3 - Para cada epoca
+P3EPWR_delta = zeros(qntE, 1);
+P3EPWR_teta = zeros(qntE, 1);
+P3EPWR_alpha = zeros(qntE, 1);
+P3EPWR_beta = zeros(qntE, 1);
+P3EPWR_gama = zeros(qntE, 1);
+P3EPWR_high_gama = zeros(qntE, 1);
 
-%% Power total usando equações do destro
-P3PWR = integral(P3XM(P3f < 100), P3f(P3f < 100));
-P4PWR = integral(P4XM(P4f < 100), P4f(P4f < 100));
-
-P3EPWR = zeros(qntE, 1);
-P4EPWR = zeros(qntE, 1);
+index_delta = (P3Ef > delta(1) & P3Ef > delta(2));
+index_teta = (P3Ef > teta(1) & P3Ef > teta(2));
+index_alpha = (P3Ef > alpha(1) & P3Ef > alpha(2));
+index_beta = (P3Ef > beta(1) & P3Ef > beta(2));
+index_gama = (P3Ef > gama(1) & P3Ef > gama(2));
+index_high_gama = (P3Ef > high_gama(1) & P3Ef > high_gama(2));
 for ii=1:qntE
-    P3EPWR(ii) = integral(P3EXM(ii, P3Ef < 100), P3Ef(P3Ef < 100));
-    P4EPWR(ii) = integral(P4EXM(ii, P4Ef < 100), P4Ef(P4Ef < 100));
+    P3EPWR_delta(ii) = trapz(P3EXM(ii, index_delta), P3Ef(index_delta));
+    P3EPWR_teta(ii) = trapz(P3EXM(ii, index_teta), P3Ef(index_teta));
+    P3EPWR_alpha(ii) = trapz(P3EXM(ii, index_alpha), P3Ef(index_alpha));
+    P3EPWR_beta(ii) = trapz(P3EXM(ii, index_beta), P3Ef(index_beta));
+    P3EPWR_gama(ii) = trapz(P3EXM(ii, index_gama), P3Ef(index_gama));
+    P3EPWR_high_gama(ii) = trapz(P3EXM(ii, index_high_gama), P3Ef(index_high_gama));
 end
 
-disp('************************');
-disp('Usando funções do Destro');
-disp('************************');
-disp(['Potência de P3: ' num2str(P3PWR)]);
-disp(['Potência de P4: ' num2str(P4PWR)]);
-disp('************************');
-disp('Potências de cada epoca de P3: ');
-P3EPWR'
-disp('Potências de cada epoca de P4: ');
-P4EPWR'
+%% Power per band P4 - Para cada epoca
+P4EPWR_delta = zeros(qntE, 1);
+P4EPWR_teta = zeros(qntE, 1);
+P4EPWR_alpha = zeros(qntE, 1);
+P4EPWR_beta = zeros(qntE, 1);
+P4EPWR_gama = zeros(qntE, 1);
+P4EPWR_high_gama = zeros(qntE, 1);
 
-%% Erro da PSD
-P3XM_mean = mean(P3EXM);
-P3XM_std = std(P3EXM);
-P3XM_mean_upper = P3XM_mean + P3XM_std;
-P3XM_mean_lower = P3XM_mean - P3XM_std;
+index_delta = (P4Ef > delta(1) & P4Ef > delta(2));
+index_teta = (P4Ef > teta(1) & P4Ef > teta(2));
+index_alpha = (P4Ef > alpha(1) & P4Ef > alpha(2));
+index_beta = (P4Ef > beta(1) & P4Ef > beta(2));
+index_gama = (P4Ef > gama(1) & P4Ef > gama(2));
+index_high_gama = (P4Ef > high_gama(1) & P4Ef > high_gama(2));
+for ii=1:qntE
+    P4EPWR_delta(ii) = trapz(P4EXM(ii, index_delta), P4Ef(index_delta));
+    P4EPWR_teta(ii) = trapz(P4EXM(ii, index_teta), P4Ef(index_teta));
+    P4EPWR_alpha(ii) = trapz(P4EXM(ii, index_alpha), P4Ef(index_alpha));
+    P4EPWR_beta(ii) = trapz(P4EXM(ii, index_beta), P4Ef(index_beta));
+    P4EPWR_gama(ii) = trapz(P4EXM(ii, index_gama), P4Ef(index_gama));
+    P4EPWR_high_gama(ii) = trapz(P4EXM(ii, index_high_gama), P4Ef(index_high_gama));
+end
 
-figure();
-plot(P3f, P3XM);
-title('PSD - Power Spectrum Density');
-ylabel('|X| [W/Hz]');
-xlabel('F [Hz]');
-xlim([0, 100]);
-hold on;
-plot(P3f, P3XM_mean);
-plot(P3f, P3XM_mean_upper, 'k');
-plot(P3f, P3XM_mean_lower, 'k');
-grid on;
-legend('P3','P3 mean');
+%% Potencias
+%   * Absoluta -> valor bruto da potencia
+%   * Potencia relativa
+%       * relativo a potencia total da propria epoca
+%       * relativo a potencia total do sinal
+%       * relativo a soma das potencias de todas as epoca
+%       * relativo a varios exemplos
+% PCP -> porcentagem de contribui��o de potencia (potencia relativa a cada
+% epoca)
