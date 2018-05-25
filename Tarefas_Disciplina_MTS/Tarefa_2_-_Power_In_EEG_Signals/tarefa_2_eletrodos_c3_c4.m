@@ -30,7 +30,7 @@
 % Em aula foram utilizados os eletrodos 14 e 16. (C31 e C42)
 
 %% Adding the path to the Destro's codes and .mat files
-addpath('../datasets','../codigos_destro')
+addpath('../datasets','../codigos_destro');
 
 %% Clearing the enviroment
 clear; close all; clc;
@@ -356,3 +356,15 @@ grid on;
 ylabel('Potência [uW]')
 ylim([0, 300])
 xlabel('Época')
+
+% %% Espectrograma
+% spectrogram(C3,4096,[],[],fa,'yaxis')
+% ax=gca;
+% ylim(ax, [0, 20]); 
+% 
+% %% Outro espectrograma
+% fs = fa;
+% [cfs,f] = cwt(C3,fs,'WaveletParameters',[14,200]);
+% 
+% %%
+% cwt(C3,fa);
