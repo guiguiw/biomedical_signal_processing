@@ -173,7 +173,9 @@ C3PWR_alpha = integral(C3XM(C3f > alpha(1) & C3f < alpha(2)), C3f(C3f > alpha(1)
 C3PWR_beta = integral(C3XM(C3f > beta(1) & C3f < beta(2)), C3f(C3f > beta(1) & C3f < beta(2)));
 C3PWR_gama = integral(C3XM(C3f > gama(1) & C3f < gama(2)), C3f(C3f > gama(1) & C3f < gama(2)));
 C3PWR_high_gama = integral(C3XM(C3f > high_gama(1) & C3f < high_gama(2)), C3f(C3f > high_gama(1) & C3f < high_gama(2)));
-
+%%
+C3_tabela = {'delta', 'teta', 'alpha', 'beta', 'gama', 'high_gama'; ...
+    C3PWR_delta, C3PWR_teta, C3PWR_alpha, C3PWR_beta, C3PWR_gama, C3PWR_high_gama};
 %% Power per band C4
 C4PWR_delta = integral(C4XM(C4f > delta(1) & C4f > delta(2)), C4f(C4f > delta(1) & C4f > delta(2)));
 C4PWR_teta = integral(C4XM(C4f > teta(1) & C4f > teta(2)), C4f(C4f > teta(1) & C4f > teta(2)));
@@ -181,7 +183,13 @@ C4PWR_alpha = integral(C4XM(C4f > alpha(1) & C4f > alpha(2)), C4f(C4f > alpha(1)
 C4PWR_beta = integral(C4XM(C4f > beta(1) & C4f > beta(2)), C4f(C4f > beta(1) & C4f > beta(2)));
 C4PWR_gama = integral(C4XM(C4f > gama(1) & C4f > gama(2)), C4f(C4f > gama(1) & C4f > gama(2)));
 C4PWR_high_gama = integral(C4XM(C4f > high_gama(1) & C4f > high_gama(2)), C4f(C4f > high_gama(1) & C4f > high_gama(2)));
-
+%%
+C4_tabela = {'delta', 'teta', 'alpha', 'beta', 'gama', 'high_gama'; ...
+    C4PWR_delta, C4PWR_teta, C4PWR_alpha, C4PWR_beta, C4PWR_gama, C4PWR_high_gama};
+%%
+tabela = {'-', 'delta', 'teta', 'alpha', 'beta', 'gama', 'high_gama'; ...
+    'C3: ', C3PWR_delta, C3PWR_teta, C3PWR_alpha, C3PWR_beta, C3PWR_gama, C3PWR_high_gama; ...
+    'C4: ', C4PWR_delta, C4PWR_teta, C4PWR_alpha, C4PWR_beta, C4PWR_gama, C4PWR_high_gama};
 %% Para cada epoca
 C3EPWR = zeros(qntE, 1);
 C4EPWR = zeros(qntE, 1);
@@ -235,6 +243,8 @@ for ii=1:qntE
     C4EPWR_gama(ii) = integral(C4EXM(ii, index_gama), C4Ef(index_gama));
     C4EPWR_high_gama(ii) = integral(C4EXM(ii, index_high_gama), C4Ef(index_high_gama));
 end
+
+%%
 
 %% Potencias
 %   * Absoluta -> valor bruto da potencia
