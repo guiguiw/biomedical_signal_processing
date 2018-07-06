@@ -16,11 +16,11 @@
 %                        do vetor x [1xN]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [ integralTotal ] = integral(x, time_vector)
+function [ integralTotal ] = integral(x, Ta)
 
 %% Obten��o das vari�veis auxiliares para implementa��o do m�todo de
 % integra��o num�rica (trap�zio simples)
-Ta = time_vector(2) - time_vector(1);      % Per�odo de amostragem
+%Ta = time_vector(2) - time_vector(1);      % Per�odo de amostragem
 N = length(x);% N�mero de amostras do vetor x
 t = 0:Ta:Ta*(N-1);
 
