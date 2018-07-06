@@ -255,3 +255,28 @@ end
 %       * relativo a varios exemplos
 % PCP -> porcentagem de contribui��o de potencia (potencia relativa a cada
 % epoca)
+%% Aula 28-06-2018
+
+C3PWR_delta_erro = abs((C3PWR_delta - mean(C3EPWR_delta)) / C3PWR_delta);
+C3PWR_teta_erro = abs((C3PWR_teta - mean(C3EPWR_teta)) / C3PWR_teta);
+C3PWR_alpha_erro = abs((C3PWR_alpha - mean(C3EPWR_alpha)) / C3PWR_alpha);
+C3PWR_beta_erro = abs((C3PWR_beta - mean(C3EPWR_beta)) / C3PWR_beta);
+C3PWR_gama_erro = abs((C3PWR_gama - mean(C3EPWR_gama)) / C3PWR_gama);
+C3PWR_high_gama_erro = abs((C3PWR_high_gama - mean(C3EPWR_high_gama)) / C3PWR_high_gama);
+
+C4PWR_delta_erro = abs((C4PWR_delta - mean(C4EPWR_delta)) / C4PWR_delta);
+C4PWR_teta_erro = abs((C4PWR_teta - mean(C4EPWR_teta)) / C4PWR_teta);
+C4PWR_alpha_erro = abs((C4PWR_alpha - mean(C4EPWR_alpha)) / C4PWR_alpha);
+C4PWR_beta_erro = abs((C4PWR_beta - mean(C4EPWR_beta)) / C4PWR_beta);
+C4PWR_gama_erro = abs((C4PWR_gama - mean(C4EPWR_gama)) / C4PWR_gama);
+C4PWR_high_gama_erro = abs((C4PWR_high_gama - mean(C4EPWR_high_gama)) / C4PWR_high_gama);
+
+
+destro_tabela = ...
+    {'-', 'delta',     'teta',     'alpha',    'beta',     'gama',     'high_gama'; ...
+    'C3_total: ', C3PWR_delta, C3PWR_teta, C3PWR_alpha, C3PWR_beta, C3PWR_gama, C3PWR_high_gama; ...
+    'C3_media: ', mean(C3EPWR_delta), mean(C3EPWR_teta), mean(C3EPWR_alpha), mean(C3EPWR_beta), mean(C3EPWR_gama), mean(C3EPWR_high_gama); ...
+    'C3_erro: ', C3PWR_delta_erro, C3PWR_teta_erro, C3PWR_alpha_erro, C3PWR_beta_erro, C3PWR_gama_erro, C3PWR_high_gama_erro; ...
+    'C4_total: ', C4PWR_delta, C4PWR_teta, C4PWR_alpha, C4PWR_beta, C4PWR_gama, C4PWR_high_gama; ...
+    'C4_media: ', mean(C4EPWR_delta), mean(C4EPWR_teta), mean(C4EPWR_alpha), mean(C4EPWR_beta), mean(C4EPWR_gama), mean(C4EPWR_high_gama); ...
+    'C4_erro: ', C4PWR_delta_erro, C4PWR_teta_erro, C4PWR_alpha_erro, C4PWR_beta_erro, C4PWR_gama_erro, C4PWR_high_gama_erro};
