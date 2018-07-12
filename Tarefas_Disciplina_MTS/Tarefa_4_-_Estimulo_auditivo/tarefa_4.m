@@ -75,7 +75,9 @@ plot(eeg_freqs, eeg_stimulus_powers(1,:));
 %      eeg_resting_freq_bands(ii,:) = eeg_resting_freq_bands(ii,:) / rest_total(ii);
 %      eeg_stimulus_freq_bands(ii,:) = eeg_stimulus_freq_bands(ii,:) / stim_total(ii);
 % end
+
 %% 3d
+% grafico 3d das potencias em cada janela de estimulo
 figure()
 [X,Y] = meshgrid(1:10,eeg_freqs);
 Z =  eeg_stimulus_powers';
