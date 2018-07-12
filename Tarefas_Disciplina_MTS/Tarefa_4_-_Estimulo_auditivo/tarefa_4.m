@@ -1,5 +1,5 @@
 %% Adding the path to the Destro's codes and .mat files
-addpath('../datasets','../codigos_destro', '../toolbox', '../biolab_toolbox')
+addpath('../datasets','../codigos_destro', '../toolbox')%, '../biolab_toolbox')
 
 %% Clearing the enviroment
 clear; close all; clc;
@@ -51,14 +51,28 @@ plot(eeg_freqs, eeg_stimulus_powers(1,:));
 % plot(eeg_freqs, eeg_resting_powers(1, :));
 % title('fft');
 %% Frequency Bands
-[rest_total, eeg_resting_freq_bands] = get_freq_bands_power(eeg_freqs, eeg_resting_powers);
-[stim_total, eeg_stimulus_freq_bands] = get_freq_bands_power(eeg_freqs, eeg_stimulus_powers);
+% Descomente a opção desejada
 
+% Trapezoidal
+% [rest_total, eeg_resting_freq_bands] = get_freq_bands_power(eeg_freqs, eeg_resting_powers, 'trapz');
+% [stim_total, eeg_stimulus_freq_bands] = get_freq_bands_power(eeg_freqs, eeg_stimulus_powers, 'trapz');
+ 
+% Media
+% [rest_total, eeg_resting_freq_bands] = get_freq_bands_power(eeg_freqs, eeg_resting_powers, 'mean');
+% [stim_total, eeg_stimulus_freq_bands] = get_freq_bands_power(eeg_freqs, eeg_stimulus_powers, 'mean');
+ 
+% integral.m corrigida
+% [rest_total, eeg_resting_freq_bands] = get_freq_bands_power(eeg_freqs, eeg_resting_powers, 'destro_corrigida');
+% [stim_total, eeg_stimulus_freq_bands] = get_freq_bands_power(eeg_freqs, eeg_stimulus_powers, 'destro_corrigida');
+ 
+% Integral.m com todos os erros que tinha
+[rest_total, eeg_resting_freq_bands] = get_freq_bands_power(eeg_freqs, eeg_resting_powers, 'destro');
+[stim_total, eeg_stimulus_freq_bands] = get_freq_bands_power(eeg_freqs, eeg_stimulus_powers, 'destro');
 %% Relativa
-for ii=1:10
-     eeg_resting_freq_bands(ii,:) = eeg_resting_freq_bands(ii,:) / rest_total(ii);
-     eeg_stimulus_freq_bands(ii,:) = eeg_stimulus_freq_bands(ii,:) / stim_total(ii);
-end
+% for ii=1:10
+%      eeg_resting_freq_bands(ii,:) = eeg_resting_freq_bands(ii,:) / rest_total(ii);
+%      eeg_stimulus_freq_bands(ii,:) = eeg_stimulus_freq_bands(ii,:) / stim_total(ii);
+% end
 %% 3d
 figure()
 [X,Y] = meshgrid(1:10,eeg_freqs);
@@ -87,11 +101,12 @@ rest_stim_std = [std_rest std_stim];
 
 %subplot(5,4,nn);
 bar(rest_stim); hold on;
-errorbar(rest_stim,rest_stim_std,'k.')
+index_error_bar = [0.85 1.15; 1.85 2.15; 2.85 3.15; 3.85 4.15; 4.85 5.15; 5.85 6.15];
+errorbar(index_error_bar, rest_stim,rest_stim_std,'k.')
 %title(nomeCanais{nn});
-title("Potência Absoluta para C3");
+title("Potências Totais para C3 - media");
 legend('Respouso', 'Estimulo');
-ylabel("Potência Relativa");
+ylabel("Potência Total");
 xlabel("Bandas de Frequência");
 grid on;
 %ylim([0, 40]);
