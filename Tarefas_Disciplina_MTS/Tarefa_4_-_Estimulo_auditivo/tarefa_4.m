@@ -69,6 +69,8 @@ plot(eeg_freqs, eeg_stimulus_powers(1,:));
 [rest_total, eeg_resting_freq_bands] = get_freq_bands_power(eeg_freqs, eeg_resting_powers, 'destro');
 [stim_total, eeg_stimulus_freq_bands] = get_freq_bands_power(eeg_freqs, eeg_stimulus_powers, 'destro');
 %% Relativa
+% descomente para obter a frequencia relativa
+% ou deixe comentado para opter a frequencia total
 % for ii=1:10
 %      eeg_resting_freq_bands(ii,:) = eeg_resting_freq_bands(ii,:) / rest_total(ii);
 %      eeg_stimulus_freq_bands(ii,:) = eeg_stimulus_freq_bands(ii,:) / stim_total(ii);
